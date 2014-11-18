@@ -84,8 +84,8 @@ import org.springframework.util.StringUtils;
 
 /**
  * The {@code Builder} pattern implementation for the EIP-method chain.
- * Provides variety of methods to populate Spring Integration components
- * to the {@link IntegrationFlow} for the future registration in the
+ * Provides a variety of methods to populate Spring Integration components
+ * to an {@link IntegrationFlow} for the future registration in the
  * application context.
  *
  * @author Artem Bilan
@@ -126,9 +126,9 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 	}
 
 	/**
-	 * Populate the {@link org.springframework.integration.channel.FixedSubscriberChannel} instance
-	 * to the current {@link IntegrationFlow} chain position.
-	 * The 'bean name' will be generated on the bean registration phase.
+	 * Populate an {@link org.springframework.integration.channel.FixedSubscriberChannel} instance
+	 * at the current {@link IntegrationFlow} chain position.
+	 * The 'bean name' will be generated during the bean registration phase.
 	 * @return the current {@link IntegrationFlowDefinition}.
 	 */
 	public B fixedSubscriberChannel() {
@@ -136,8 +136,8 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 	}
 
 	/**
-	 * Populate the {@link org.springframework.integration.channel.FixedSubscriberChannel} instance
-	 * to the current {@link IntegrationFlow} chain position.
+	 * Populate an {@link org.springframework.integration.channel.FixedSubscriberChannel} instance
+	 * at the current {@link IntegrationFlow} chain position.
 	 * The provided {@code messageChannelName} is used for the bean registration.
 	 * @param messageChannelName the bean name to use.
 	 * @return the current {@link IntegrationFlowDefinition}.
@@ -147,10 +147,10 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 	}
 
 	/**
-	 * Populate the {@link MessageChannelReference} instance
-	 * to the current {@link IntegrationFlow} chain position.
+	 * Populate a {@link MessageChannelReference} instance
+	 * at the current {@link IntegrationFlow} chain position.
 	 * The provided {@code messageChannelName} is used for the bean registration
-	 * ({@link org.springframework.integration.channel.DirectChannel}), if there is such a bean
+	 * ({@link org.springframework.integration.channel.DirectChannel}), if there is no such a bean
 	 * in the application context. Otherwise the existing {@link MessageChannel} bean is used
 	 * to wire integration endpoints.
 	 * @param messageChannelName the bean name to use.
@@ -161,8 +161,8 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 	}
 
 	/**
-	 * Populate the {@link MessageChannel} instance
-	 * to the current {@link IntegrationFlow} chain position using the {@link Channels}
+	 * Populate a {@link MessageChannel} instance
+	 * at the current {@link IntegrationFlow} chain position using the {@link Channels}
 	 * factory fluent API.
 	 * @param channels the {@link Function} to use.
 	 * @return the current {@link IntegrationFlowDefinition}.
@@ -173,8 +173,8 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 	}
 
 	/**
-	 * Populate the {@link MessageChannel} instance
-	 * to the current {@link IntegrationFlow} chain position using the {@link MessageChannelSpec}
+	 * Populate a {@link MessageChannel} instance
+	 * at the current {@link IntegrationFlow} chain position using the {@link MessageChannelSpec}
 	 * fluent API.
 	 * @param messageChannelSpec the {@link MessageChannelSpec} to use.
 	 * @return the current {@link IntegrationFlowDefinition}.
@@ -187,10 +187,10 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 
 	/**
 	 * Populate the provided {@link MessageChannel} instance
-	 * to the current {@link IntegrationFlow} chain position.
-	 * The {@code messageChannel} can be an existing bean, or fresh instance.
-	 * The {@link org.springframework.integration.dsl.config.IntegrationFlowBeanPostProcessor}
-	 * will populate it as a bean with generated name.
+	 * at the current {@link IntegrationFlow} chain position.
+	 * The {@code messageChannel} can be an existing bean, or fresh instance, in which case
+	 * the {@link org.springframework.integration.dsl.config.IntegrationFlowBeanPostProcessor}
+	 * will populate it as a bean with a generated name.
 	 * @param messageChannel the {@link MessageChannel} to populate.
 	 * @return the current {@link IntegrationFlowDefinition}.
 	 */
@@ -205,7 +205,7 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 
 	/**
 	 * The {@link org.springframework.integration.channel.PublishSubscribeChannel} {@link #channel}
-	 * method specific implementation to allow to use 'subflow' subscriber ability.
+	 * method specific implementation to allow the use of the 'subflow' subscriber capability.
 	 * @param publishSubscribeChannelConfigurer the {@link Consumer} to specify
 	 * {@link PublishSubscribeSpec} options including 'subflow' definition.
 	 * @return the current {@link IntegrationFlowDefinition}.
@@ -216,8 +216,8 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 
 	/**
 	 * The {@link org.springframework.integration.channel.PublishSubscribeChannel} {@link #channel}
-	 * method specific implementation to allow to use 'subflow' subscriber ability.
-	 * Use provided {@link Executor} for target subscribers.
+	 * method specific implementation to allow the use of the 'subflow' subscriber capability.
+	 * Use the provided {@link Executor} for the target subscribers.
 	 * @param executor the {@link Executor} to use.
 	 * @param publishSubscribeChannelConfigurer the {@link Consumer} to specify
 	 * {@link PublishSubscribeSpec} options including 'subflow' definition.
@@ -233,7 +233,7 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 
 	/**
 	 * Populate the {@code Control Bus} EI Pattern specific {@link MessageHandler} implementation
-	 * to the current {@link IntegrationFlow} chain position.
+	 * at the current {@link IntegrationFlow} chain position.
 	 * @return the current {@link IntegrationFlowDefinition}.
 	 * @see ExpressionCommandMessageProcessor
 	 */
@@ -243,7 +243,7 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 
 	/**
 	 * Populate the {@code Control Bus} EI Pattern specific {@link MessageHandler} implementation
-	 * to the current {@link IntegrationFlow} chain position.
+	 * at the current {@link IntegrationFlow} chain position.
 	 * @param endpointConfigurer the {@link Consumer} to accept integration endpoint options.
 	 * @return the current {@link IntegrationFlowDefinition}.
 	 * @see ExpressionCommandMessageProcessor

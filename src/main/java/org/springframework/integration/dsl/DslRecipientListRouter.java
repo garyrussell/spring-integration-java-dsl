@@ -17,9 +17,7 @@
 package org.springframework.integration.dsl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.BeansException;
 import org.springframework.integration.core.MessageSelector;
@@ -38,15 +36,6 @@ import org.springframework.util.StringUtils;
 class DslRecipientListRouter extends RecipientListRouter {
 
 	private final List<Tuple2<?, ?>> recipients = new ArrayList<Tuple2<?, ?>>();
-
-	private final Map<String, String> expressionRecipientMap = new HashMap<String, String>();
-
-	private final Map<String, MessageSelector> selectorRecipientMap = new HashMap<String, MessageSelector>();
-
-	private final Map<MessageChannel, String> channelExpressionRecipientMap = new HashMap<MessageChannel, String>();
-
-	private final Map<MessageChannel, MessageSelector> channelSelectorRecipientMap =
-			new HashMap<MessageChannel, MessageSelector>();
 
 	void add(String channelName, String expression) {
 		this.recipients.add(Tuples.of(channelName, expression));
@@ -80,6 +69,7 @@ class DslRecipientListRouter extends RecipientListRouter {
 		}
 
 		setRecipients(recipients);
+		this.recipients.clear();
 		super.onInit();
 	}
 

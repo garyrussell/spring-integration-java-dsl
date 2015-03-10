@@ -64,20 +64,25 @@ import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.FixedSubscriberChannel;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.config.EnableMessageHistory;
 import org.springframework.integration.context.IntegrationContextUtils;
+import org.springframework.integration.core.MessageProducer;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.channel.DirectChannelSpec;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.core.Pollers;
+import org.springframework.integration.dsl.mail.Mail;
 import org.springframework.integration.event.core.MessagingEvent;
 import org.springframework.integration.event.outbound.ApplicationEventPublishingMessageHandler;
 import org.springframework.integration.handler.AbstractReplyProducingMessageHandler;
 import org.springframework.integration.handler.advice.ExpressionEvaluatingRequestHandlerAdvice;
+import org.springframework.integration.http.inbound.HttpRequestHandlingMessagingGateway;
+import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.integration.router.MethodInvokingRouter;
 import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.integration.store.MessageStore;
@@ -1009,10 +1014,31 @@ public class IntegrationFlowTests {
 
 		@Bean
 		public IntegrationFlow flow3() {
-			return IntegrationFlows.from("flow3Input")
-					.handle(Integer.class, (p, h) -> p * 2)
-					.handle(new ApplicationEventPublishingMessageHandler())
+			return IntegrationFlows.from(Http.inboundGateway().messageConverters(...))
 					.get();
+		}
+
+		@Bean
+		public HttpRequestHandlingMessagingGateway http() {
+			HttpRequestHandlingMessagingGateway foo = new HttpRequestHandlingMessagingGateway();
+			foo.setMessageConverters(...);
+			return foo;
+		}
+
+		@Bean
+		public Object pojo() {
+			return new Object() {
+
+				public String foo(String in) {
+					return in + in;
+				}
+			};
+		}
+
+
+		@Bean
+		public MessageHandler mqtt() {
+			return new MqttPahoMessageHandler(...);
 		}
 
 		@Bean
@@ -1155,6 +1181,19 @@ public class IntegrationFlowTests {
 
 		@Bean
 		@DependsOn("enrichFlow")
+		public IntegrationFlow enricherFlow2() {
+			return IntegrationFlows.from("enricherInput2", true)
+					.enrich(e -> e.requestChannel("enrichChannel")
+									.requestPayloadExpression("payload")
+									.shouldClonePayload(false)
+									.propertyExpression("name", "payload['name']")
+									.propertyExpression("date", "new java.util.Date()")
+					)
+					.get();
+		}
+
+		@Bean
+		@DependsOn("enrichFlow")
 		public IntegrationFlow enricherFlow() {
 			return IntegrationFlows.from("enricherInput", true)
 					.enrich(e -> e.requestChannel("enrichChannel")
@@ -1163,19 +1202,6 @@ public class IntegrationFlowTests {
 									.propertyExpression("name", "payload['name']")
 									.propertyFunction("date", m -> new Date())
 									.headerExpression("foo", "payload['name']")
-					)
-					.get();
-		}
-
-		@Bean
-		@DependsOn("enrichFlow")
-		public IntegrationFlow enricherFlow2() {
-			return IntegrationFlows.from("enricherInput2", true)
-					.enrich(e -> e.requestChannel("enrichChannel")
-									.requestPayloadExpression("payload")
-									.shouldClonePayload(false)
-									.propertyExpression("name", "payload['name']")
-									.propertyExpression("date", "new java.util.Date()")
 					)
 					.get();
 		}

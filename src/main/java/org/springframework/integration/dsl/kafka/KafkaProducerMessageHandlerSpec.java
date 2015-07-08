@@ -22,10 +22,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.kafka.clients.producer.Producer;
+
 import org.springframework.integration.dsl.core.ComponentsRegistration;
-import org.springframework.integration.dsl.core.IntegrationComponentSpec;
 import org.springframework.integration.dsl.core.MessageHandlerSpec;
-import org.springframework.integration.dsl.support.Consumer;
 import org.springframework.integration.dsl.support.Function;
 import org.springframework.integration.dsl.support.FunctionExpression;
 import org.springframework.integration.kafka.outbound.KafkaProducerMessageHandler;
@@ -35,12 +35,6 @@ import org.springframework.integration.kafka.support.ProducerFactoryBean;
 import org.springframework.integration.kafka.support.ProducerMetadata;
 import org.springframework.messaging.Message;
 import org.springframework.util.Assert;
-
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.common.serialization.Serializer;
-
-import kafka.producer.Partitioner;
-import kafka.serializer.Encoder;
 
 /**
  * A {@link MessageHandlerSpec} implementation for the {@link KafkaProducerMessageHandler}.

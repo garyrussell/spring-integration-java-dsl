@@ -115,7 +115,7 @@ public class ReactiveStreamsTests {
 								.map(Arrays::asList)
 								.<String>split()
 								.map(Integer::parseInt)
-								.<Message<Integer>>map(GenericMessage::new)
+								.<Message<Integer>>map(GenericMessage<Integer>::new)
 								.concatWith(this.pollablePublisher)
 								.map(Message::getPayload)
 								.toList(7)

@@ -2464,7 +2464,6 @@ public abstract class IntegrationFlowDefinition<B extends IntegrationFlowDefinit
 	 * @param <T> the {@code payload} type
 	 * @return the Reactive Streams {@link Publisher}
 	 */
-	@SuppressWarnings("unchecked")
 	public <T> Publisher<Message<T>> toReactivePublisher(Executor executor) {
 		Assert.notNull(executor);
 		MessageChannel channelForPublisher = this.currentMessageChannel;

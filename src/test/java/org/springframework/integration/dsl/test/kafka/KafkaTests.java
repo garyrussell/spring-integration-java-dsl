@@ -52,7 +52,6 @@ import org.springframework.integration.kafka.core.ConnectionFactory;
 import org.springframework.integration.kafka.core.DefaultConnectionFactory;
 import org.springframework.integration.kafka.core.ZookeeperConfiguration;
 import org.springframework.integration.kafka.listener.Acknowledgment;
-import org.springframework.integration.kafka.listener.LongSerializerDecoder;
 import org.springframework.integration.kafka.listener.MetadataStoreOffsetManager;
 import org.springframework.integration.kafka.support.KafkaHeaders;
 import org.springframework.integration.kafka.support.ProducerMetadata;

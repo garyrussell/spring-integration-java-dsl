@@ -79,7 +79,6 @@ public abstract class AbstractPublisherIntegrationFlowVerification extends Publi
 	}
 
 	@BeforeMethod
-	@SuppressWarnings("unchecked")
 	public void setUp(Method method) throws Exception {
 		this.setUp();
 		this.testName = method.getName();

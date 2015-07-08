@@ -191,7 +191,6 @@ class PublisherIntegrationFlow<T> extends StandardIntegrationFlow implements Pub
 		}
 
 		@Override
-		@SuppressWarnings("unchecked")
 		public void handleMessage(Message<?> message) throws MessagingException {
 			if (this.terminated || !PublisherIntegrationFlow.this.isRunning()) {
 				((SubscribableChannel) PublisherIntegrationFlow.this.messageChannel).unsubscribe(this);

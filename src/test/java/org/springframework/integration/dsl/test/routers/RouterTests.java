@@ -39,7 +39,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.Router;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.config.EnableIntegration;
-import org.springframework.integration.core.MessageSelector;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.support.FunctionExpression;
@@ -452,7 +451,7 @@ public class RouterTests {
 		@Bean
 		public IntegrationFlow routeSubflowToReplyChannelFlow() {
 			return f -> f
-					.<Integer, Boolean>route("true", m -> m
+					.route("true", m -> m
 							.subFlowMapping(true, sf -> sf
 													.<String>handle((p, h) -> p.toUpperCase())
 									)
@@ -498,7 +497,6 @@ public class RouterTests {
 		}
 
 		@Bean
-		@SuppressWarnings("deprecation")
 		public IntegrationFlow recipientListFlow() {
 			return IntegrationFlows.from("recipientListInput")
 					.<String, String>transform(p -> p.replaceFirst("Payload", ""))
@@ -583,6 +581,7 @@ public class RouterTests {
 			return name + "-channel";
 		}
 
+		@SuppressWarnings("unused")
 		public String routeMessage(Message<?> message) {
 			if (message.getPayload().equals("foo")) {
 				return "foo-channel";

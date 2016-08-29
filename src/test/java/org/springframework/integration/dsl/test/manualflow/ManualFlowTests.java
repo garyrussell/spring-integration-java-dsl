@@ -125,8 +125,9 @@ public class ManualFlowTests {
 		PollableChannel resultChannel = new QueueChannel();
 
 		this.integrationFlowContext.register("dynamicFlow", flow -> flow
-				.publishSubscribeChannel(p -> {
-					p.subscribe(f ->
+				.publishSubscribeChannel(p -> { p
+					.minSubscribers(1)
+					.subscribe(f ->
 							f.channel(resultChannel));
 				}));
 
